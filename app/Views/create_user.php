@@ -19,8 +19,17 @@
   </div>
   <div class="form-group">
     <label for="kelas">Kelas</label>
-    <input type="text" class="form-control" name="kelas" placeholder="Masukan Kelas">
+    <select class="form-select" name="kelas" aria-label="Default select example">
+    <?php
+    foreach ($kelas as $item){
+      ?>
+  <option value="<?= $item['id']?>"><?=$item['nama_kelas']?></option>
+  <?php
+  }
+  ?>
+  </select>
   </div>
+  
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
     </div>
