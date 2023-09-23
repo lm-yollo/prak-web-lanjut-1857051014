@@ -22,20 +22,38 @@ class UsersModel extends Model
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
 
-    // Validation
-    protected $validationRules      = [];
-    protected $validationMessages   = [];
-    protected $skipValidation       = false;
-    protected $cleanValidationRules = true;
+    // // Validation
+    // protected $validationRules      = [];
+    // protected $validationMessages   = [];
+    // protected $skipValidation       = false;
+    // protected $cleanValidationRules = true;
 
     // Callbacks
-    protected $allowCallbacks = true;
-    protected $beforeInsert   = [];
-    protected $afterInsert    = [];
-    protected $beforeUpdate   = [];
-    protected $afterUpdate    = [];
-    protected $beforeFind     = [];
-    protected $afterFind      = [];
-    protected $beforeDelete   = [];
-    protected $afterDelete    = [];
+    // protected $allowCallbacks = true;
+    // protected $beforeInsert   = [];
+    // protected $afterInsert    = [];
+    // protected $beforeUpdate   = [];
+    // protected $afterUpdate    = [];
+    // protected $beforeFind     = [];
+    // protected $afterFind      = [];
+    // protected $beforeDelete   = [];
+    // protected $afterDelete    = [];
+
+
+    public function saveUser($data){
+        $this->insert($data);
+    }
+    public function getUsersWithKelas()
+    {
+        return $this->select('user.*, kelas.nama_kelas')
+            ->join('kelas', 'user.id_kelas = kelas.id', 'inner')
+            ->findAll();
+    }
+    public function getUsersWithKelasByNpm($npm)
+{
+    return $this->select('user.*, kelas.nama_kelas')
+        ->join('kelas', 'user.id_kelas = kelas.id', 'inner')
+        ->where('user.npm', $npm)
+        ->first();
+}
 }
