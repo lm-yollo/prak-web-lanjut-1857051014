@@ -3,20 +3,22 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\KelasModel;
 use App\Models\UsersModel;
 
 class UserController extends BaseController
 {
-    protected $userModel;
+    public $userModel;
+    public $kelasModel;
     public function __construct()
     {
         $this->userModel = new UsersModel();
+        $this->kelasModel = new KelasModel();
     }
     public function index()
     {
-        //
 
-        $users = $this->userModel->getUsersWithKelas();
+        $users = $this->userModel->getUser();
         $data = [
             'title' => "Daftar User",
             'users' => $users,
@@ -26,16 +28,22 @@ class UserController extends BaseController
     public function detail($npm)
     {
         $user = $this->userModel->getUsersWithKelasByNpm($npm);
+        $title = "Detail User";
+
         if ($user) {
             // Data ditemukan, tampilkan tampilan profil pengguna
-            $data['user'] = $user;
+            $data = [
+                'user' => $user,
+                'title' => $title
+            ];
             return view('profile', $data);
         } else {
             // Data tidak ditemukan, tampilkan pesan error atau tampilan lain
             // return view('user_not_found');
-            echo 'User Tidak Ada';
+            return 'User Tidak Ada'; // Menggunakan return daripada echo
         }
     }
+
 
     public function profile($nama = "", $kelas = "", $npm = "")
     {
@@ -50,28 +58,9 @@ class UserController extends BaseController
 
     public function create()
     {
-        $kelas = [
-            [
-                'id' => 1,
-                'nama_kelas' => 'AB'
-            ],
-            [
-                'id' => 2,
-                'nama_kelas' => 'BC'
-            ],
-            [
-                'id' => 3,
-                'nama_kelas' => 'CD'
-            ],
-            [
-                'id' => 4,
-                'nama_kelas' => 'DA'
-            ],
-
-        ];
-
-
+        $kelas = $this->kelasModel->getKelas();
         $data = [
+            'title' => "Tambah User",
             'kelas' => $kelas,
             'validation' => \Config\Services::validation()
         ];
@@ -96,8 +85,6 @@ class UserController extends BaseController
             ]
         ])) {
             $validationErrors = $this->validator->getErrors();
-
-            // Simpan pesan kesalahan dalam flashdata berdasarkan nama bidang
             foreach ($validationErrors as $field => $error) {
                 session()->setFlashdata('error_' . $field, $error);
             }
@@ -110,6 +97,7 @@ class UserController extends BaseController
             'npm' => $this->request->getVar('npm'),
             'id_kelas' => $this->request->getVar('kelas')
         ]);
+        session()->setFlashdata('pesan', 'Data Berhasil Ditambahkan!');
         return redirect()->to('/user');
     }
 }
