@@ -1,41 +1,42 @@
-<!doctype html>
-<html lang="en">
+<?= $this->extend('layouts/template'); ?>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><?=$title?></title>
-  <link href="<?= base_url("assets/css/bootstrap.min.css") ?>" rel="stylesheet">
-</head>
-
-<body>
+<?= $this->section('content'); ?>
 <div class="container">
-    <a href="<?= base_url('/user/create') ?>" class="btn btn-primary">Create User</a>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Nama</th>
-                <th>NPM</th>
-                <th>Kelas</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php $i = 1; ?>
-            <?php foreach ($users as $u) : ?>
-            <tr>
-                <td><?= $i++; ?></td>
-                <td><?= $u['nama']; ?></td>
-                <td><?= $u['npm']; ?></td>
-                <td><?= $u['nama_kelas']; ?></td>
-                <td><a href="/user/detail/<?= $u['npm']; ?>" class="btn btn-success"> Detail</a></td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+    <div class="col">
+        <div class="row">
+            <div class="container">
+                <?php if (session()->getFlashdata('pesan')) : ?>
+                    <div class="alert alert-success" id="myAlert" role="alert">
+                        <?= session()->getFlashdata('pesan'); ?>
+                    </div>
+                <?php endif ?>
+                <table class="table table-striped">
+                    <h1 class="mt-3">Data Mahasiswa/i</h1>
+                    <a href="<?= base_url('/user/create') ?>" class="btn btn-primary">Create User</a>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>NPM</th>
+                            <th>Kelas</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $i = 1; ?>
+                        <?php foreach ($users as $u) : ?>
+                            <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $u['nama']; ?></td>
+                                <td><?= $u['npm']; ?></td>
+                                <td><?= $u['nama_kelas']; ?></td>
+                                <td><a href="/user/detail/<?= $u['npm']; ?>" class="btn btn-success"> Detail</a></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-<script src="<?= base_url("assets/js/bootstrap.bundle.min.js") ?>"></script>
-</body>
-
-</html>
+<?= $this->endSection(); ?>

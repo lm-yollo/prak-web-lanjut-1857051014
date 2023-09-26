@@ -13,7 +13,7 @@ class UsersModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['nama','npm','id_kelas'];
+    protected $allowedFields    = ['nama', 'npm', 'id_kelas'];
 
     // Dates
     protected $useTimestamps = true;
@@ -40,20 +40,26 @@ class UsersModel extends Model
     // protected $afterDelete    = [];
 
 
-    public function saveUser($data){
+    public function saveUser($data)
+    {
         $this->insert($data);
     }
-    public function getUsersWithKelas()
+    public function getUser()
+    {
+        return $this->join('kelas', 'kelas.id=user.id_kelas')->findAll();
+    }
+    // public function getUsersWithKelas()
+    // {
+    //     return $this->select('user.*, kelas.nama_kelas')
+    //         ->join('kelas', 'user.id_kelas = kelas.id', 'inner')
+    //         ->orderBy('user.npm', 'asc')
+    //         ->findAll();
+    // }
+    public function getUsersWithKelasByNpm($npm)
     {
         return $this->select('user.*, kelas.nama_kelas')
             ->join('kelas', 'user.id_kelas = kelas.id', 'inner')
-            ->findAll();
+            ->where('user.npm', $npm)
+            ->first();
     }
-    public function getUsersWithKelasByNpm($npm)
-{
-    return $this->select('user.*, kelas.nama_kelas')
-        ->join('kelas', 'user.id_kelas = kelas.id', 'inner')
-        ->where('user.npm', $npm)
-        ->first();
-}
 }
