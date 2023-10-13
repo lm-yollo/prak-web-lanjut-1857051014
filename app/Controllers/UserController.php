@@ -93,4 +93,51 @@ class UserController extends BaseController
         session()->setFlashdata('pesan', 'Data Berhasil Ditambahkan!');
         return redirect()->to('/user');
     }
+    public function edit($id)
+    {
+        $user = $this->userModel->getUser($id);
+        $kelas = $this->kelasModel->getKelas();
+
+        $data = [
+            'title' => 'Edit Form User',
+            'user' => $user,
+            'kelas' => $kelas,
+        ];
+
+        return view('edit_user', $data);
+    }
+    public function update($id)
+    {
+        $path = 'assets/uploads/img/';
+        $foto = $this->request->getFile('foto');
+        if ($foto->isValid()) {
+            $name = $foto->getRandomName();
+            if ($foto->move($path, $name)) {
+                $foto = base_url($path . $name);
+            }
+        }
+
+        $data = [
+            'nama' => $this->request->getVar('nama'),
+            'npm' => $this->request->getVar('npm'),
+            'id_kelas' => $this->request->getVar('kelas'),
+            'foto'  => $foto
+        ];
+
+        $result = $this->userModel->updateUser($id, $data);
+
+        if (!$result) {
+            return redirect()->back()->withInput()->with('error', 'Gagal Menyimpan Data');
+        }
+
+        return redirect()->to('/user');
+    }
+    public function destroy($id)
+    {
+        $result = $this->userModel->deleteUser($id);
+        if (!$result) {
+            return redirect()->back()->with('Error', 'Gagal menghapus Data');
+        }
+        return redirect()->to(base_url('/user'))->with('success', 'Berhasil menghapus data');
+    }
 }

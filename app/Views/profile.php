@@ -20,7 +20,7 @@
                                 </div>
                             </div>
                             <div class="d-flex pt-1">
-                                <a href="" class="btn btn-outline-primary me-1 flex-grow-1">Edit Data</a>
+                                <a href="<?= base_url('user/' . $user['id'] . '/edit') ?>" class="btn btn-outline-primary me-1 flex-grow-1"> Edit Data</a>
                                 <a href="/user" class="btn btn-primary flex-grow-1">Kembali</a><br><br>
                             </div>
                         </div>
