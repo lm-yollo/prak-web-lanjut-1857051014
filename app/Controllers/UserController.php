@@ -44,25 +44,12 @@ class UserController extends BaseController
         }
     }
 
-
-    public function profile($nama = "", $kelas = "", $npm = "")
-    {
-        $data = [
-            'nama' => $nama,
-            'kelas' => $kelas,
-            'npm' => $npm
-        ];
-
-        return view('profile', $data);
-    }
-
     public function create()
     {
         $kelas = $this->kelasModel->getKelas();
         $data = [
             'title' => "Tambah User",
             'kelas' => $kelas,
-            'validation' => \Config\Services::validation()
         ];
         return view('create_user', $data);
     }
@@ -90,12 +77,18 @@ class UserController extends BaseController
             }
             return redirect()->to('/user/create')->withInput();
         }
-        $userModel = new UsersModel;
+        $path = 'assets/uploads/img/';
+        $foto = $this->request->getFile('foto');
+        $name = $foto->getRandomName();
 
-        $userModel->saveUser([
+        if ($foto->move($path, $name)) {
+            $foto = base_url($path . $name);
+        }
+        $this->userModel->saveUser([
             'nama' => $this->request->getVar('nama'),
             'npm' => $this->request->getVar('npm'),
-            'id_kelas' => $this->request->getVar('kelas')
+            'id_kelas' => $this->request->getVar('kelas'),
+            'foto'  => $foto
         ]);
         session()->setFlashdata('pesan', 'Data Berhasil Ditambahkan!');
         return redirect()->to('/user');

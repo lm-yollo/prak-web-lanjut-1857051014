@@ -13,3 +13,4 @@ $routes->get('/user', 'UserController::index');
 $routes->get('/user/detail/(:segment)', 'UserController::detail/$1');
 $routes->get('/user/create', 'UserController::create');
 $routes->post('/user/store', 'UserController::store');
+$routes->get('/user/(:any)', 'UserController::show/$1');

@@ -10,7 +10,7 @@
 
         </div>
         <div class="card-body col-md-6">
-          <form action="<?= base_url('/user/store') ?>" method="POST" autocomplete="off">
+          <form action="<?= base_url('/user/store') ?>" method="POST" enctype="multipart/form-data">
             <?= csrf_field() ?>
             <div class="form-group">
               <label>NPM</label>
@@ -42,7 +42,15 @@
                 ?>
               </select>
             </div>
-
+            <div class="form-group">
+              <label>Foto</label>
+              <input type="file" name="foto" class="form-control <?php if (session()->getFlashdata('error_foto')) echo 'is-invalid'; ?>" value="<?= old('foto'); ?>">
+              <?php if (session()->getFlashdata('error_foto')) : ?>
+                <div class="invalid-feedback">
+                  <?= session()->getFlashdata('error_foto') ?>
+                </div>
+              <?php endif; ?>
+            </div>
             <br><br>
             <button type="submit" class="btn btn-success">Submit</button>
             <a href="/user" class="btn btn-primary">Kembali</a>
