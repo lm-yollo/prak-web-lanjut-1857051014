@@ -8,7 +8,7 @@
                 <div class="card-body p-4">
                     <div class="d-flex text-black">
                         <div class="flex-shrink-0">
-                            <img src="<?= base_url("assets/img/panda.jpg") ?>" alt="Generic placeholder image" class="img-fluid" style="width: 180px; border-radius: 20px;">
+                            <img src="<?= isset($user['foto']) ? $user['foto'] : base_url('assets/img/panda.jpg') ?>" alt="Generic placeholder image" class="img-fluid" style="width: 180px; border-radius: 20px;">
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <h5 class="mb-1"><?= $user['nama'] ?></h5>
