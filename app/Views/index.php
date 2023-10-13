@@ -30,7 +30,12 @@
                                 <td><?= $u['nama']; ?></td>
                                 <td><?= $u['npm']; ?></td>
                                 <td><?= $u['nama_kelas']; ?></td>
-                                <td><a href="/user/detail/<?= $u['npm']; ?>" class="btn btn-success"> Detail</a></td>
+                                <td>
+                                    <a href="/user/detail/<?= $u['npm']; ?>" class="btn btn-success"> <i class="fas fa-eye"></i> Detail</a>
+                                    <a href="<?= base_url('user/' . $u['id'] . '/edit') ?>" class="btn btn-warning"><i class="fas fa-pencil"></i> Edit</a>
+                                    <a href="javascript:void(0);" class="btn btn-danger delete-button" data-url="<?= base_url('user/' . $u['id']) ?>"><i class="fas fa-trash"></i> Delete</a>
+
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
